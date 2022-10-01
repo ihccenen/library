@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Library</title>
     <link rel="stylesheet" href="./style/style.css" />
-    <script src="./script/script.js"></script>
+    <script src="./script/script.js" defer></script>
   </head>
   <body>
     <table>
@@ -24,7 +24,7 @@
 
     <button class="new-book">New Book</button>
 
-    <form action="#" method="post">
+    <form action="#" method="post" data-form="book">
       <label for="author">Author</label>
       <input type="text" name="author" id="author" required />
 
@@ -32,7 +32,7 @@
       <input type="text" name="title" id="title" required />
 
       <label for="pages">Pages</label>
-      <input type="number" name="pages" id="pages" pattern="[0-9]" required />
+      <input type="number" name="pages" id="pages" pattern="[0-9]+" required />
 
       <fieldset>
         <legend>Status</legend>
@@ -57,7 +57,7 @@
         <label for="not-yet">Not Yet</label>
       </fieldset>
 
-      <button type="submit">Submit</button>
+      <button data-button="submit" type="submit">Submit</button>
     </form>
   </body>
 </html>
