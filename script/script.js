@@ -19,6 +19,34 @@ function addBookToLibrary(event) {
   );
 
   myLibrary.push(newBook);
+
+  displayBook();
+}
+
+function displayBook() {
+  const bookList = document.querySelector(`[data-list='book-list']`);
+  const tr = Array.from(bookList.childNodes);
+
+  // clear tbody
+  for (let prop of tr) {
+    prop.remove();
+  }
+
+  myLibrary.map((book, index) => {
+    const tr = document.createElement('tr');
+    tr.dataset.book = index;
+
+    for (let value in book) {
+      if (book.hasOwnProperty(value)) {
+        const td = document.createElement('td');
+
+        td.appendChild(document.createTextNode(book[value]));
+        tr.appendChild(td);
+      }
+    }
+
+    bookList.appendChild(tr);
+  });
 }
 
 const form = document.querySelector(`[data-form='book']`);
