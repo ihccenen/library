@@ -26,23 +26,38 @@
 
     <form action="#" method="post">
       <label for="author">Author</label>
-      <input type="text" name="author" id="author" />
+      <input type="text" name="author" id="author" required />
 
       <label for="title">Title</label>
-      <input type="text" name="title" id="title" />
+      <input type="text" name="title" id="title" required />
 
       <label for="pages">Pages</label>
-      <input type="number" name="pages" id="pages" />
+      <input type="number" name="pages" id="pages" pattern="[0-9]" required />
 
       <fieldset>
         <legend>Status</legend>
 
+        <input
+          type="radio"
+          name="status"
+          id="finished"
+          value="finished"
+          checked
+          required
+        />
         <label for="finished">Finished</label>
-        <input type="radio" name="status" id="finished" value="finished" />
 
+        <input
+          type="radio"
+          name="status"
+          id="not-yet"
+          value="not-yet"
+          required
+        />
         <label for="not-yet">Not Yet</label>
-        <input type="radio" name="status" id="not-yet" value="not-yet" />
       </fieldset>
+
+      <button type="submit">Submit</button>
     </form>
   </body>
 </html>
