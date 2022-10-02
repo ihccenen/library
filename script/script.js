@@ -37,7 +37,6 @@ function addBookToLibrary(event) {
 
   newBook.displayBook();
   myLibrary.push(newBook);
-  console.log(newBook);
 }
 
 const form = document.querySelector(`[data-form='book']`);
