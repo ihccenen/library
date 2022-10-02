@@ -7,6 +7,23 @@ function Book(...args) {
   this.read = args[3];
 }
 
+Book.prototype.displayBook = function () {
+  const tbody = document.querySelector(`[data-list='book-list']`);
+  const tr = document.createElement('tr');
+
+  for (let value in this) {
+    if (!this.hasOwnProperty(value)) continue;
+
+    const td = document.createElement('td');
+
+    td.appendChild(document.createTextNode(this[value]));
+    tr.appendChild(td);
+  }
+
+  tr.dataset.book = myLibrary.length;
+  tbody.appendChild(tr);
+};
+
 function addBookToLibrary(event) {
   event.preventDefault();
 
@@ -18,35 +35,9 @@ function addBookToLibrary(event) {
     readStatus
   );
 
+  newBook.displayBook();
   myLibrary.push(newBook);
-
-  displayBook();
-}
-
-function displayBook() {
-  const bookList = document.querySelector(`[data-list='book-list']`);
-  const tr = Array.from(bookList.childNodes);
-
-  // clear tbody
-  for (let prop of tr) {
-    prop.remove();
-  }
-
-  myLibrary.map((book, index) => {
-    const tr = document.createElement('tr');
-    tr.dataset.book = index;
-
-    for (let value in book) {
-      if (book.hasOwnProperty(value)) {
-        const td = document.createElement('td');
-
-        td.appendChild(document.createTextNode(book[value]));
-        tr.appendChild(td);
-      }
-    }
-
-    bookList.appendChild(tr);
-  });
+  console.log(newBook);
 }
 
 const form = document.querySelector(`[data-form='book']`);
