@@ -20,7 +20,7 @@ Book.prototype.displayBook = function () {
     tr.appendChild(td);
   }
 
-  tr.dataset.book = myLibrary.length;
+  tr.dataset.book = tbody.childNodes.length;
   tbody.appendChild(tr);
 };
 
