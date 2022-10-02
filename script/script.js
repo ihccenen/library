@@ -11,12 +11,12 @@ Book.prototype.displayBook = function () {
   const tbody = document.querySelector(`[data-list='book-list']`);
   const tr = document.createElement('tr');
 
-  for (let value in this) {
-    if (!this.hasOwnProperty(value)) continue;
+  for (let key in this) {
+    if (!this.hasOwnProperty(key)) continue;
 
     const td = document.createElement('td');
 
-    td.appendChild(document.createTextNode(this[value]));
+    td.appendChild(document.createTextNode(this[key]));
     tr.appendChild(td);
   }
 
