@@ -10,6 +10,11 @@ function Book(...args) {
 Book.prototype.displayBook = function () {
   const tbody = document.querySelector(`[data-list='book-list']`);
   const tr = document.createElement('tr');
+  const deleteBtn = document.createElement('button');
+  deleteBtn.type = 'button';
+  deleteBtn.classList = 'delete-btn';
+  deleteBtn.appendChild(document.createTextNode('X'));
+  deleteBtn.addEventListener('click', removeBook);
 
   for (let key in this) {
     if (!this.hasOwnProperty(key)) continue;
@@ -20,6 +25,7 @@ Book.prototype.displayBook = function () {
     tr.appendChild(td);
   }
 
+  tr.appendChild(deleteBtn);
   tr.dataset.book = tbody.childNodes.length;
   tbody.appendChild(tr);
 };
@@ -37,6 +43,19 @@ function addBookToLibrary(event) {
 
   newBook.displayBook();
   myLibrary.push(newBook);
+}
+
+function removeBook(event) {
+  const tr = event.target.parentElement;
+
+  myLibrary.splice(tr.dataset.book, 1);
+  tr.remove();
+
+  myLibrary.map((book, index) => {
+    const tr = Array.from(document.querySelectorAll('[data-book]'));
+
+    tr[index].dataset.book = index;
+  });
 }
 
 const form = document.querySelector(`[data-form='book']`);
