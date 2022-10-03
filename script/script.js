@@ -103,6 +103,8 @@ function clearForm() {
 
 const form = document.querySelector(`[data-form='book']`);
 const btn = document.querySelector(`[data-button='new-book']`);
+const closeBtn = document.querySelector(`[data-button='close-modal']`);
 
 form.addEventListener('submit', addBookToLibrary);
 btn.addEventListener('click', showForm);
+closeBtn.addEventListener('click', clearForm);
