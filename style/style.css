@@ -1,9 +1,10 @@
 :root {
   --clr-black-4: rgba(0, 0, 0, 0.4);
   --clr-dark-d-blue: rgb(40, 34, 65);
+  --clr-dark-m-blue: rgb(75, 59, 140);
   --clr-grayish-blue: rgb(238, 238, 241);
-  --clr-lime-green: #73c46b;
-  --clr-soft-red: #e54b57;
+  --clr-lime-green: rgb(115, 196, 107);
+  --clr-soft-red: rgb(229, 75, 87);
 }
 
 * {
@@ -34,12 +35,6 @@ button.green-btn {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-}
-
-.delete-btn {
-  background-color: var(--clr-soft-red);
-  margin-left: 1rem;
-  padding: 0.2em 0.7em;
 }
 
 .modal {
