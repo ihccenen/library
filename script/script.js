@@ -63,6 +63,7 @@ function addBookToLibrary(event) {
 
   newBook.displayBook();
   myLibrary.push(newBook);
+  clearForm();
 }
 
 function removeBook(event) {
@@ -87,6 +88,21 @@ function changeStatus(event) {
   td.firstChild.textContent = myLibrary[trNum].read;
 }
 
+function showForm() {
+  const modal = document.querySelector('.modal');
+
+  modal.style.display = 'flex';
+}
+
+function clearForm() {
+  const modal = document.querySelector('.modal');
+
+  form.reset();
+  modal.style.display = 'none';
+}
+
 const form = document.querySelector(`[data-form='book']`);
+const btn = document.querySelector(`[data-button='new-book']`);
 
 form.addEventListener('submit', addBookToLibrary);
+btn.addEventListener('click', showForm);
