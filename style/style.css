@@ -14,6 +14,12 @@ body {
   font-family: Tahoma, sans-serif;
 }
 
+button {
+  border: none;
+  border-radius: 0.5em;
+  color: var(--clr-grayish-blue);
+}
+
 .flex-container {
   display: flex;
   flex-direction: column;
@@ -33,11 +39,12 @@ body {
 }
 
 form.flex-container {
+  position: relative;
   font-size: 1.3rem;
   gap: 1.5rem;
   background-color: var(--clr-dark-d-blue);
   color: var(--clr-grayish-blue);
-  padding: 1rem 2rem;
+  padding: 2.5rem;
   border-radius: 1rem;
 }
 
@@ -63,4 +70,13 @@ fieldset.flex-container {
 .submit {
   max-width: max-content;
   padding: 0.5rem 1.5rem;
+}
+
+.close-btn {
+  max-width: max-content;
+  position: absolute;
+  right: 15px;
+  top: 20px;
+  padding: 0.2em 0.4em;
+  background-color: #e54b57;
 }
