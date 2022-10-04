@@ -55,6 +55,16 @@ function displayBook(book) {
       )
     );
 
+    if (key === 'read') {
+      const statusBtn = document.createElement('button');
+
+      statusBtn.type = 'button';
+      statusBtn.classList.add('status-btn');
+      statusBtn.addEventListener('click', changeStatus);
+      textDiv.classList.add('status');
+      textDiv.appendChild(statusBtn);
+    }
+
     div.appendChild(textDiv);
   }
 
@@ -76,6 +86,15 @@ function removeBook(event) {
   display.map((book, index) => {
     book.dataset.book = index;
   });
+}
+
+function changeStatus(event) {
+  const text = event.target.parentElement;
+  const bookNum = text.parentElement.dataset.book;
+
+  myLibrary[bookNum].status();
+
+  text.firstChild.textContent = `Read: ${myLibrary[bookNum].read}`;
 }
 
 function showForm() {
