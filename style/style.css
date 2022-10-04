@@ -15,6 +15,7 @@
 
 body {
   font-family: Tahoma, sans-serif;
+  background-color: var(--clr-dark-d-blue);
 }
 
 button {
@@ -46,14 +47,13 @@ button.green-btn {
 .book-display {
   display: grid;
   width: 100%;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  row-gap: 3rem;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1rem;
 }
 
 .book-card {
   position: relative;
   font-size: 1.2rem;
-  max-width: 320px;
   gap: 1.2em;
   background-color: var(--clr-dark-m-blue);
   color: var(--clr-grayish-blue);
