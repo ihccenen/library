@@ -34,7 +34,7 @@ function addBookToLibrary(event) {
 }
 
 function displayBook(book) {
-  const display = document.querySelector(`[data-display='container']`);
+  const display = document.querySelector(`[data-display]`);
   const div = document.createElement('div');
   const deleteBtn = document.createElement('button');
 
@@ -80,7 +80,7 @@ function removeBook(event) {
   bookCard.remove();
 
   const display = Array.from(
-    document.querySelector(`[data-display='container']`).childNodes
+    document.querySelector(`[data-display]`).childNodes
   );
 
   display.map((book, index) => {
@@ -110,7 +110,7 @@ function clearForm() {
   modal.style.display = 'none';
 }
 
-const form = document.querySelector(`[data-form='book']`);
+const form = document.querySelector(`[data-form]`);
 const btn = document.querySelector(`[data-button='new-book']`);
 const closeBtn = document.querySelector(`[data-button='close-modal']`);
 
