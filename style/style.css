@@ -1,10 +1,11 @@
 :root {
   --clr-black-4: rgba(0, 0, 0, 0.4);
-  --clr-dark-d-blue: rgb(40, 34, 65);
-  --clr-dark-m-blue: rgb(75, 59, 140);
-  --clr-grayish-blue: rgb(238, 238, 241);
-  --clr-lime-green: rgb(115, 196, 107);
-  --clr-soft-red: rgb(229, 75, 87);
+  --clr-soft-blue: #8671d9;
+  --clr-dark-d-blue: #282241;
+  --clr-dark-m-blue: #4b3b8c;
+  --clr-grayish-blue: #eeeef1;
+  --clr-lime-green: #73c46b;
+  --clr-soft-red: #e54b57;
 }
 
 * {
@@ -15,7 +16,7 @@
 
 body {
   font-family: Tahoma, sans-serif;
-  background-color: var(--clr-dark-d-blue);
+  background-color: var(--clr-soft-blue);
 }
 
 button {
@@ -25,11 +26,16 @@ button {
   cursor: pointer;
 }
 
+button:hover {
+  opacity: 0.9;
+}
+
 button.green-btn {
   font-size: 1.3rem;
   background-color: var(--clr-lime-green);
   max-width: max-content;
   padding: 0.5rem 1.5rem;
+  box-shadow: 1px 1px 1px var(--clr-dark-d-blue);
 }
 
 .flex-container {
@@ -60,6 +66,7 @@ button.green-btn {
   padding: 2em;
   word-break: break-all;
   border-radius: 0.9em;
+  box-shadow: 1px 1px 1px var(--clr-dark-d-blue);
 }
 
 .status {
@@ -86,6 +93,11 @@ button.green-btn {
   width: 40px;
   background-image: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' fill='rgb(229, 75, 87)' height='40' width='40' %3E%3Cpath d='M11.792 34.167q-1.084 0-1.854-.771-.771-.771-.771-1.854V9.375H7.5V7.292h7.25v-1.25h10.5v1.25h7.25v2.083h-1.667v22.167q0 1.083-.771 1.854-.77.771-1.854.771ZM28.708 9.375H11.292v22.167q0 .25.146.396.145.145.354.145h16.416q.209 0 .354-.166.146-.167.146-.375Zm-12.875 19.25h2.084V12.833h-2.084Zm6.25 0h2.084V12.833h-2.084ZM11.292 9.375V32.083v-.541Z' /%3E%3C/svg%3E");
   background-repeat: no-repeat;
+}
+
+.delete-btn:hover,
+.status-btn:hover {
+  opacity: 0.7;
 }
 
 .modal {
