@@ -13,6 +13,32 @@ class Book {
 
     this.read = 'Finished'
   }
+
+  displayBook() {
+    const display = document.querySelector('[data-display]')
+    const bookDiv = document.createElement('div')
+    const deleteBookBtn = document.createElement('button')
+
+    bookDiv.classList.add('book-card', 'flex-container')
+    bookDiv.dataset.book = myLibrary.length - 1
+    bookDiv.append(deleteBookBtn)
+    deleteBookBtn.classList.add('delete-btn')
+    deleteBookBtn.addEventListener('click', removeBook)
+
+    for (let key in this) {
+      const div = document.createElement('div')
+
+      div.appendChild(
+        document.createTextNode(
+          `${key[0].toUpperCase()}${key.slice(1)}: ${this[key]} `
+        )
+      )
+
+      bookDiv.appendChild(div)
+    }
+
+    display.appendChild(bookDiv)
+  }
 }
 
 function addBookToLibrary(event) {
@@ -25,49 +51,9 @@ function addBookToLibrary(event) {
     form[2].value,
     readStatus
   )
-
   myLibrary.push(newBook)
-  displayBook(newBook)
+  newBook.displayBook()
   clearForm()
-}
-
-function displayBook(book) {
-  const display = document.querySelector(`[data-display]`)
-  const div = document.createElement('div')
-  const deleteBtn = document.createElement('button')
-
-  div.classList.add('book-card', 'flex-container')
-  div.dataset.book = myLibrary.indexOf(book)
-  deleteBtn.type = 'button'
-  deleteBtn.classList.add('delete-btn')
-  deleteBtn.addEventListener('click', removeBook)
-
-  for (let key in book) {
-    if (!book.hasOwnProperty(key)) continue
-
-    const textDiv = document.createElement('div')
-
-    textDiv.appendChild(
-      document.createTextNode(
-        `${key[0].toUpperCase() + key.slice(1)}: ${book[key]}`
-      )
-    )
-
-    if (key === 'read') {
-      const statusBtn = document.createElement('button')
-
-      statusBtn.type = 'button'
-      statusBtn.classList.add('status-btn')
-      statusBtn.addEventListener('click', changeStatus)
-      textDiv.classList.add('status')
-      textDiv.appendChild(statusBtn)
-    }
-
-    div.appendChild(textDiv)
-  }
-
-  div.appendChild(deleteBtn)
-  display.appendChild(div)
 }
 
 function removeBook(event) {
