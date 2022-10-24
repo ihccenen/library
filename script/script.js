@@ -16,14 +16,20 @@ class Book {
 
   displayBook() {
     const display = document.querySelector('[data-display]')
-    const bookDiv = document.createElement('div')
+    const bookDiv = this.createBookCard()
     const deleteBookBtn = document.createElement('button')
 
     bookDiv.classList.add('book-card', 'flex-container')
     bookDiv.dataset.book = myLibrary.length - 1
-    bookDiv.append(deleteBookBtn)
     deleteBookBtn.classList.add('delete-btn')
-    deleteBookBtn.addEventListener('click', removeBook)
+    deleteBookBtn.addEventListener('click', this.removeBook)
+
+    bookDiv.append(deleteBookBtn)
+    display.appendChild(bookDiv)
+  }
+
+  createBookCard() {
+    const cardDiv = document.createElement('div')
 
     for (let key in this) {
       const div = document.createElement('div')
@@ -34,10 +40,21 @@ class Book {
         )
       )
 
-      bookDiv.appendChild(div)
+      cardDiv.appendChild(div)
     }
 
-    display.appendChild(bookDiv)
+    return cardDiv
+  }
+
+  removeBook(event) {
+    const bookCard = event.target.parentElement
+
+    bookCard.remove()
+    myLibrary.splice(bookCard.dataset.book, 1)
+
+    const cardGrid = Array.from(document.querySelectorAll('[data-book]'))
+
+    cardGrid.forEach((card, index) => (card.dataset.book = index))
   }
 }
 
@@ -54,22 +71,6 @@ function addBookToLibrary(event) {
   myLibrary.push(newBook)
   newBook.displayBook()
   clearForm()
-}
-
-function removeBook(event) {
-  const bookCard = event.target.parentElement
-
-  myLibrary.splice(bookCard.dataset.book, 1)
-
-  bookCard.remove()
-
-  const display = Array.from(
-    document.querySelector(`[data-display]`).childNodes
-  )
-
-  display.map((book, index) => {
-    book.dataset.book = index
-  })
 }
 
 function changeStatus(event) {
