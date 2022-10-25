@@ -5,13 +5,9 @@ class Book {
     ;[this.author, this.title, this.pages, this.read] = args
   }
 
-  status() {
-    if (this.read === 'Finished') {
-      this.read = 'Not Yet'
-      return
-    }
-
-    this.read = 'Finished'
+  changeStatus() {
+    if (this.read === 'Not Yet') this.read = 'Finished'
+    else this.read = 'Not Yet'
   }
 
   displayBook() {
@@ -40,10 +36,30 @@ class Book {
         )
       )
 
+      if (key === 'read') {
+        const statusBtn = document.createElement('button')
+
+        statusBtn.type = 'button'
+        statusBtn.classList.add('status-btn')
+        statusBtn.addEventListener('click', this.changeDisplayStatus)
+        div.classList.add('status')
+        div.appendChild(statusBtn)
+      }
+
       cardDiv.appendChild(div)
     }
 
     return cardDiv
+  }
+
+  changeDisplayStatus(event) {
+    const bookCard = event.target.parentElement
+    const bookIndex = bookCard.parentElement.dataset.book
+
+    myLibrary[bookIndex].changeStatus()
+
+    // change firstChild to not make the button disappear
+    bookCard.firstChild.textContent = `Read: ${myLibrary[bookIndex].read}`
   }
 
   removeBook(event) {
@@ -73,15 +89,6 @@ function addBookToLibrary(event) {
   clearForm()
 }
 
-function changeStatus(event) {
-  const text = event.target.parentElement
-  const bookNum = text.parentElement.dataset.book
-
-  myLibrary[bookNum].status()
-
-  text.firstChild.textContent = `Read: ${myLibrary[bookNum].read}`
-}
-
 function showForm() {
   const modal = document.querySelector('.modal')
 
@@ -95,9 +102,9 @@ function clearForm() {
   modal.style.display = 'none'
 }
 
-const form = document.querySelector(`[data-form]`)
-const btn = document.querySelector(`[data-button='new-book']`)
-const closeBtn = document.querySelector(`[data-button='close-modal']`)
+const form = document.querySelector('[data-form]')
+const btn = document.querySelector('[data-button="new-book"]')
+const closeBtn = document.querySelector('[data-button="close-modal"]')
 
 form.addEventListener('submit', addBookToLibrary)
 btn.addEventListener('click', showForm)
