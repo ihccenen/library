@@ -1,111 +1,132 @@
-const myLibrary = []
+const myLibrary = [];
+
+function closeModal() {
+  const form = document.querySelector('[data-form]');
+  const overlay = document.querySelector('[data-overlay="modal"]');
+  const modal = document.querySelector('[data-modal="book-form"]');
+
+  overlay.classList.add('hidden');
+  modal.classList.add('hidden');
+  form.reset();
+}
+
+function openModal() {
+  const overlay = document.querySelector('[data-overlay="modal"]');
+  const modal = document.querySelector('[data-modal="book-form"]');
+
+  overlay.classList.remove('hidden');
+  modal.classList.remove('hidden');
+
+  overlay.addEventListener('click', closeModal, { once: true });
+}
 
 class Book {
-  constructor(...args) {
-    ;[this.author, this.title, this.pages, this.read] = args
+  #author;
+
+  #title;
+
+  #status;
+
+  #pages;
+
+  constructor({
+    author, title, status, pages
+  }) {
+    this.#author = author;
+    this.#title = title;
+    this.#pages = pages;
+    this.#status = status;
   }
 
-  changeStatus() {
-    if (this.read === 'Not Yet') this.read = 'Finished'
-    else this.read = 'Not Yet'
-  }
-
-  displayBook() {
-    const display = document.querySelector('[data-display]')
-    const bookDiv = this.createBookCard()
-    const deleteBookBtn = document.createElement('button')
-
-    bookDiv.classList.add('book-card', 'flex-container')
-    bookDiv.dataset.book = myLibrary.length - 1
-    deleteBookBtn.classList.add('delete-btn')
-    deleteBookBtn.addEventListener('click', this.removeBook)
-
-    bookDiv.append(deleteBookBtn)
-    display.appendChild(bookDiv)
-  }
-
-  createBookCard() {
-    const cardDiv = document.createElement('div')
-
-    for (let key in this) {
-      const div = document.createElement('div')
-
-      div.appendChild(
-        document.createTextNode(
-          `${key[0].toUpperCase()}${key.slice(1)}: ${this[key]} `
-        )
-      )
-
-      if (key === 'read') {
-        const statusBtn = document.createElement('button')
-
-        statusBtn.type = 'button'
-        statusBtn.classList.add('status-btn')
-        statusBtn.addEventListener('click', this.changeDisplayStatus)
-        div.classList.add('status')
-        div.appendChild(statusBtn)
-      }
-
-      cardDiv.appendChild(div)
+  updateStatus() {
+    if (this.#status === 'completed') {
+      this.#status = 'reading';
+    } else {
+      this.#status = 'completed';
     }
 
-    return cardDiv
+    return new Book(this);
   }
 
-  changeDisplayStatus(event) {
-    const bookCard = event.target.parentElement
-    const bookIndex = bookCard.parentElement.dataset.book
-
-    myLibrary[bookIndex].changeStatus()
-
-    // change firstChild to not make the button disappear
-    bookCard.firstChild.textContent = `Read: ${myLibrary[bookIndex].read}`
-  }
-
-  removeBook(event) {
-    const bookCard = event.target.parentElement
-
-    bookCard.remove()
-    myLibrary.splice(bookCard.dataset.book, 1)
-
-    const cardGrid = Array.from(document.querySelectorAll('[data-book]'))
-
-    cardGrid.forEach((card, index) => (card.dataset.book = index))
+  get status() {
+    return this.#status;
   }
 }
 
-function addBookToLibrary(event) {
-  event.preventDefault()
+function removeBook(e) {
+  const container = document.querySelector('[data-tbody="books"]');
+  const tr = e.target.closest('[data-tr="book"]');
+  const index = Array.from(container.childNodes).indexOf(tr);
 
-  const readStatus = form[4].checked ? 'Finished' : 'Not Yet'
-  const newBook = new Book(
-    form[0].value,
-    form[1].value,
-    form[2].value,
-    readStatus
-  )
-  myLibrary.push(newBook)
-  newBook.displayBook()
-  clearForm()
+  myLibrary.splice(index, 1);
+  tr.remove();
 }
 
-function showForm() {
-  const modal = document.querySelector('.modal')
+function displayBook({
+  author, title, pages, status
+}) {
+  const container = document.querySelector('[data-tbody="books"]');
+  const tr = document.createElement('tr');
+  const authorTd = document.createElement('td');
+  const titleTd = document.createElement('td');
+  const pagesTd = document.createElement('td');
+  const statusTd = document.createElement('td');
+  const updateBookBtnTd = document.createElement('td');
+  const updateBookBtn = document.createElement('button');
+  const removeBookBtnTd = document.createElement('td');
+  const removeBookBtn = document.createElement('button');
 
-  modal.style.display = 'flex'
+  tr.dataset.tr = 'book';
+
+  authorTd.textContent = author;
+  titleTd.textContent = title;
+  pagesTd.textContent = pages;
+  statusTd.textContent = status.replace(/^./i, (c) => c.toUpperCase());
+
+  updateBookBtn.type = 'button';
+  updateBookBtn.textContent = 'Update';
+  updateBookBtn.dataset.btn = 'update-book';
+  updateBookBtn.dataset.bookIndex = container.childElementCount;
+
+  removeBookBtn.type = 'button';
+  removeBookBtn.textContent = 'X';
+  removeBookBtn.dataset.btn = 'remove-book';
+
+  updateBookBtnTd.appendChild(updateBookBtn);
+  removeBookBtnTd.appendChild(removeBookBtn);
+  tr.append(authorTd, titleTd, pagesTd, statusTd, updateBookBtnTd, removeBookBtnTd);
+  container.appendChild(tr);
 }
 
-function clearForm() {
-  const modal = document.querySelector('.modal')
+function addBookToLibrary(e) {
+  e.preventDefault();
 
-  form.reset()
-  modal.style.display = 'none'
+  const obj = Object.fromEntries(new FormData(e.target));
+  const book = new Book(obj);
+
+  displayBook(obj);
+  myLibrary.push(book);
+  closeModal();
 }
 
-const form = document.querySelector('[data-form]')
-const btn = document.querySelector('[data-button="new-book"]')
-const closeBtn = document.querySelector('[data-button="close-modal"]')
+function updateTodoStatus(e) {
+  const td = e.target.parentElement.previousSibling;
+  const index = e.target.dataset.bookIndex;
 
-form.addEventListener('submit', addBookToLibrary)
-btn.addEventListener('click', showForm)
-closeBtn.addEventListener('click', clearForm)
+  myLibrary[index] = myLibrary[index].updateStatus();
+
+  td.textContent = myLibrary[index].status.replace(/^./i, (c) => c.toUpperCase());
+}
+
+const container = document.querySelector('[data-tbody="books"]');
+const form = document.querySelector('[data-form="book"]');
+const btn = document.querySelector('[data-btn="new-book"]');
+const closeBtn = document.querySelector('[data-button="close-modal"]');
+
+form.addEventListener('submit', addBookToLibrary);
+btn.addEventListener('click', openModal);
+closeBtn.addEventListener('click', closeModal);
+container.addEventListener('click', (e) => {
+  if (e.target.dataset.btn === 'remove-book') removeBook(e);
+  else if (e.target.dataset.btn === 'update-book') updateTodoStatus(e);
+});
