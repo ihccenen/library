@@ -10,22 +10,47 @@
   </head>
   <body>
     <div class="flex-container container">
-      <button data-button="new-book" class="new-book green-btn" type="button">
+      <button data-btn="new-book" class="new-book green-btn" type="button">
         New Book
       </button>
 
-      <div data-display class="book-display"></div>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Author</th>
+              <th>Title</th>
+              <th>Pages</th>
+              <th>Status</th>
+              <th>Update</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
 
-      <div class="flex-container modal">
-        <form action="#" method="post" data-form class="flex-container">
+          <tbody data-tbody="books"></tbody>
+        </table>
+      </div>
+
+      <div class="modal hidden flex-container" data-modal="book-form">
+        <form action="#" method="post" data-form="book" class="flex-container">
           <div class="flex-container">
             <label for="author">Author</label>
-            <input type="text" name="author" id="author" required />
+            <input
+              type="text"
+              name="author"
+              id="author"
+              required
+              data-input="author" />
           </div>
 
           <div class="flex-container">
             <label for="title">Title</label>
-            <input type="text" name="title" id="title" required />
+            <input
+              type="text"
+              name="title"
+              id="title"
+              required
+              data-input="title" />
           </div>
 
           <div class="flex-container">
@@ -37,7 +62,7 @@
               pattern="[0-9]+"
               min="1"
               required
-            />
+              data-input="pages" />
           </div>
 
           <fieldset class="flex-container">
@@ -47,23 +72,21 @@
               <input
                 type="radio"
                 name="status"
-                id="finished"
-                value="finished"
+                id="completed"
+                value="completed"
                 checked
-                required
-              />
-              <label for="finished">Finished</label>
+                required />
+              <label for="completed">Completed</label>
             </div>
 
             <div>
               <input
                 type="radio"
                 name="status"
-                id="not-yet"
-                value="not-yet"
-                required
-              />
-              <label for="not-yet">Not Yet</label>
+                id="reading"
+                value="reading"
+                required />
+              <label for="reading">Reading</label>
             </div>
           </fieldset>
 
@@ -75,6 +98,7 @@
           </button>
         </form>
       </div>
+      <div class="overlay hidden" data-overlay="modal"></div>
     </div>
   </body>
 </html>
