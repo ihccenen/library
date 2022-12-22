@@ -54,7 +54,7 @@ class Book {
 }
 
 function removeBook(e) {
-  const container = document.querySelector('[data-tbody="books"]');
+  const container = document.querySelector('[data-display="book"]');
   const tr = e.target.closest('[data-tr="book"]');
   const index = Array.from(container.childNodes).indexOf(tr);
 
@@ -65,7 +65,7 @@ function removeBook(e) {
 function displayBook({
   author, title, pages, status
 }) {
-  const container = document.querySelector('[data-tbody="books"]');
+  const container = document.querySelector('[data-display="book"]');
   const tr = document.createElement('tr');
   const authorTd = document.createElement('td');
   const titleTd = document.createElement('td');
@@ -79,22 +79,38 @@ function displayBook({
   tr.dataset.tr = 'book';
 
   authorTd.textContent = author;
+
   titleTd.textContent = title;
+
   pagesTd.textContent = pages;
+
   statusTd.textContent = status.replace(/^./i, (c) => c.toUpperCase());
+  statusTd.dataset.book = 'status';
+
+  updateBookBtnTd.classList = 'btn-td';
 
   updateBookBtn.type = 'button';
-  updateBookBtn.textContent = 'Update';
+  updateBookBtn.textContent = 'Status';
   updateBookBtn.dataset.btn = 'update-book';
-  updateBookBtn.dataset.bookIndex = container.childElementCount;
+  updateBookBtn.classList.add('status-btn');
+
+  removeBookBtnTd.classList = 'btn-td';
 
   removeBookBtn.type = 'button';
   removeBookBtn.textContent = 'X';
+  removeBookBtn.classList.add('red-btn');
   removeBookBtn.dataset.btn = 'remove-book';
 
   updateBookBtnTd.appendChild(updateBookBtn);
   removeBookBtnTd.appendChild(removeBookBtn);
-  tr.append(authorTd, titleTd, pagesTd, statusTd, updateBookBtnTd, removeBookBtnTd);
+  tr.append(
+    authorTd,
+    titleTd,
+    pagesTd,
+    statusTd,
+    updateBookBtnTd,
+    removeBookBtnTd
+  );
   container.appendChild(tr);
 }
 
@@ -110,15 +126,16 @@ function addBookToLibrary(e) {
 }
 
 function updateTodoStatus(e) {
-  const td = e.target.parentElement.previousSibling;
-  const index = e.target.dataset.bookIndex;
+  const container = document.querySelector('[data-display="book"]');
+  const tr = e.target.closest('[data-tr="book"]');
+  const td = tr.querySelector('[data-book="status"]');
+  const index = Array.from(container.childNodes).indexOf(tr);
 
   myLibrary[index] = myLibrary[index].updateStatus();
-
-  td.textContent = myLibrary[index].status.replace(/^./i, (c) => c.toUpperCase());
+  td.textContent = myLibrary[index].status.replace(/^./, (c) => c.toUpperCase());
 }
 
-const container = document.querySelector('[data-tbody="books"]');
+const container = document.querySelector('[data-display="book"]');
 const form = document.querySelector('[data-form="book"]');
 const btn = document.querySelector('[data-btn="new-book"]');
 const closeBtn = document.querySelector('[data-button="close-modal"]');
